@@ -20,6 +20,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:latest
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-products:${{ github.sha }}
