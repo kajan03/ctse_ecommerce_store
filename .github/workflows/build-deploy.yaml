@@ -23,3 +23,19 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-products:${{ github.sha }}
+
+
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: kubectl - Google Cloud GKE cluster.
+      uses: ameydev/gke-kubectl-action@master
+      env:
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+        ZONE_NAME: us-central1-c
+      with:
+        args: apply -f k8s/
